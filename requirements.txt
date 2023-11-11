@@ -1,1 +1,3 @@
-decouple
+python-decouple
+django-livereload-server
+django-bootstrap-v5

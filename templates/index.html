@@ -1,0 +1,9 @@
+{% extends "base.html" %} {% block content %}
+
+<h1>Welcome to Tania's Kitchen!</h1>
+<h2>The best Brazilian food in Connecticut</h2>
+{% if user.is_authenticated %}
+<h2>Checkout out all of our items in stock</h2>
+{% else %}
+<h2>Login or Sign-up for free to get started!</h2>
+{% endif %} {% endblock %}
