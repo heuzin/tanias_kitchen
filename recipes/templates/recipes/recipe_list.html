@@ -1,0 +1,24 @@
+{% extends "base.html" %}  
+{% load static %}
+{% block content %}
+{% if request.user.is_authenticated %}
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for recipe in recipe_list %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{% static recipe.image_display %}" class="card-img-top" alt='recipe image'>
+                <div class="card-body">
+                <h5 class="card-title">{{recipe.title}}</h5>
+                <p class="card-text">{{recipe.description}}</p>
+                </div>
+                <div class="card-footer">
+                <small class="text-body-secondary">Price: {{recipe.price_display}}. Stock: {{recipe.stock}}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+      </div>
+
+{% endif %}
+{% endblock %}
