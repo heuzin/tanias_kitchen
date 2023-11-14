@@ -49,6 +49,11 @@
             </li>
             {% else %}
             <li>
+              <a href="{% url 'recipes:all' %}" class="btn btn-simple"
+                >Recipes</a
+              >
+            </li>
+            <li>
               <a href="{% url 'accounts:login' %}" class="btn btn-simple"
                 >Log in</a
               >

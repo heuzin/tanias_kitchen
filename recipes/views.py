@@ -8,3 +8,7 @@ from . import models
 
 class RecipeList(generic.ListView):
     model = models.Recipe
+
+
+class Recipedetail(LoginRequiredMixin, generic.DetailView):
+    model = models.Recipe

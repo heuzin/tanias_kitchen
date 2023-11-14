@@ -1,0 +1,82 @@
+{% extends "base.html" %}  
+{% load static %}
+{% block content %}
+{% if request.user.is_authenticated %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <img  src="{% static recipe.image_display %}" class="card-img-top" alt='recipe image'>
+            </div>
+            <div class="col-3">
+                <h3 class='pb-4 p-2'>{{recipe.title}}</h3>
+                <div class="card" style="width: 18rem;">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">12 reviews</li>
+                      <li class="list-group-item">Price: {{recipe.price_display}}</li>
+                      <li class="list-group-item">{{recipe.description}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card" style="width: 18rem;">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    <span>Price</span>
+                                </div>
+                                <div class="col-6">
+                                    <span>{{recipe.price_display}}</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    <span>Status</span>
+                                </div>
+                                <div class="col-6">
+                                    <span>In Stock</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    <span>Qty</span>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-select"><option value="1">1</option></select>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item"><button type="button" class="btn btn-primary w-100">Add To Cart</button></li>
+                    </ul>
+                  </div>
+            </div>
+        </div>
+        <div class="row py-4">
+            <div class="col-6">
+                <h4>Reviews</h4>
+                <div class="list-group">
+                    <strong>Matheus Silva</strong>
+                    <p>2023-11-13</p>
+                    <p>Estou viciado!</p>
+                </div>
+                <hr>
+                <h4>Write a Customer Review</h4>
+                <div class="mb-3">
+                    <label class="form-label">Rating</label>
+                    <input class="form-control">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Comment</label>
+                    <textarea class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endif %}
+{% endblock %}
