@@ -1,3 +1,13 @@
 from django.contrib import admin
+from . import models
 
-# Register your models here.
+
+class CartItemInline(admin.TabularInline):
+    model = models.CartItem
+
+
+class CartClassAdmin(admin.ModelAdmin):
+    inlines = (CartItemInline,)
+
+
+admin.site.register(models.Cart, CartClassAdmin)

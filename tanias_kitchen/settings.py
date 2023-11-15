@@ -38,11 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django_bootstrap_icons',
     'bootstrap5',
     'livereload',
     'django.contrib.staticfiles',
     'accounts',
-    'recipes'
+    'recipes',
+    'cart'
 ]
 
 MIDDLEWARE = [

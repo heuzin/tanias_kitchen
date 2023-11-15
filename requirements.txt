@@ -2,3 +2,4 @@ python-decouple
 django-livereload-server
 django-bootstrap-v5
 Pillow
+django-bootstrap-icons
