@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.views import generic
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from . import models
+from .models import Recipe
 
 
-class RecipeList(generic.ListView):
-    model = models.Recipe
+class RecipeList(ListView):
+    model = Recipe
 
 
-class Recipedetail(LoginRequiredMixin, generic.DetailView):
-    model = models.Recipe
+class Recipedetail(LoginRequiredMixin, DetailView):
+    model = Recipe

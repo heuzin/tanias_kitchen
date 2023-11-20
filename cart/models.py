@@ -28,3 +28,12 @@ class CartItem(models.Model):
 
     class Meta:
         unique_together = ('cart', 'item')
+
+    @property
+    def image_display(self):
+        image_path = self.item.image.name.split('/')
+        return image_path[1] + '/' + image_path[2]
+
+    @property
+    def total_price(self):
+        return self.item.price * self.count

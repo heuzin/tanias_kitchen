@@ -39,7 +39,9 @@
           <ul class="navbar-nav mb-2 mb-lg-0">
             {% if user.is_authenticated %}
             <li>
-              <a href="#" class="btn btn-simple"
+              <a
+                href="{% url 'cart:for_user' username=user.username %}"
+                class="btn btn-simple"
                 ><span>{% bs_icon 'cart' size='1.2em' %}</span>Cart</a
               >
             </li>

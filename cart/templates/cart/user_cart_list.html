@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load bootstrap_icons %}
+{% load static %}
+{% block content %}
+{% if request.user.is_authenticated %}
+<div class="row justify-content-center">
+    {% if  cart_item_list %}
+    <div class="col-8">
+        <h4 class='pb-4'>Shopping Cart</h4>
+        {% for recipe in cart_item_list %}
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="row pb-2">
+                        <div class="col-3">
+                            <a href="{% url 'recipes:single'  pk=recipe.item.id %}" id="pop">
+                                <img src="{% static recipe.image_display %}" class="card-img-top" alt='recipe image'>
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <p>{{recipe.item.title}}</p>
+                        </div>
+                        <div class="col-2">
+                            <p>${{recipe.total_price}}</p>
+                        </div>
+                        <div class="col-2">
+                            <select class="form-select"><option value="{{recipe.count}}">{{recipe.count}}</option></select>
+                        </div>
+                        <div class="col-2">
+                            <span>{% bs_icon 'trash' color='red' size='1.2em' %}</span>
+                        </div>
+                    </div>
+                    <hr/>
+                </li>
+            </ul>
+        {% endfor %}
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="row">
+                        <h5>Subtotal {{total_count}} Items</h5>
+                        <span>${{total_price}}</span>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <button type="button" class="btn btn-primary w-100">Proceed To Checkout</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {% else %}
+        <h4 class='pb-4'>Shopping Cart</h4>
+        <p>Your Cart is Empty</p>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

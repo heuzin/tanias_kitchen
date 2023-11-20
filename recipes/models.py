@@ -17,7 +17,6 @@ def recipe_image_file_path(instance, filename):
 class Recipe(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
-    stock = models.IntegerField(default=0)
     price = models.DecimalField(default=0, max_digits=6, decimal_places=2)
     image = models.ImageField(null=True, upload_to=recipe_image_file_path)
 
