@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'livereload',
     'django.contrib.staticfiles',
     'accounts',
+    'category',
     'recipes',
     'cart'
 ]

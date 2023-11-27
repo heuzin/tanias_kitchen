@@ -5,6 +5,8 @@ import uuid
 import os
 from django.db import models
 
+from category.models import Category
+
 
 def recipe_image_file_path(instance, filename):
     """Generate file path for new recipe image."""
@@ -15,10 +17,13 @@ def recipe_image_file_path(instance, filename):
 
 
 class Recipe(models.Model):
+    category = models.ForeignKey(Category, related_name='items', null=True,
+                                 blank=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     description = models.TextField()
     price = models.DecimalField(default=0, max_digits=6, decimal_places=2)
     image = models.ImageField(null=True, upload_to=recipe_image_file_path)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title

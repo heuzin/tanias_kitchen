@@ -2,23 +2,55 @@
 {% load static %}
 {% block content %}
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for recipe in recipe_list %}
-        <div class="col">
-            <div class="card h-100">
-                <a href="{% url 'recipes:single'  pk=recipe.pk %}" id="pop">
-                    <img src="{% static recipe.image_display %}" class="card-img-top" alt='recipe image'>
-                </a>
-                <div class="card-body">
-                <h5 class="card-title">{{recipe.title}}</h5>
-                <p class="card-text">{{recipe.description}}</p>
-                </div>
-                <div class="card-footer">
-                <small class="text-body-secondary">Price: {{recipe.price_display}}</small>
+    <div class="row">
+        <div class="col-2">
+            <form method='GET' action="{% url 'recipes:all' %}">
+                <input class='rounded w-100 p-2 border' name='query' type='text' value="{{ query }}">
+                <button class='mt-2 py-2 px-4 rounded bg-primary text-white'>Search</button>
+            </form>
+
+            <hr class='my-5'>
+
+            <p>Categories</p>
+
+            <ul>
+                {% for category in categories %}
+                    <li class='list-unstyled py-2 px-2 rounded{% if category.id|stringformat:'s' == category_id %} bg-light{% endif %}'>
+                        <a class='text-decoration-none text-dark' href="{% url 'recipes:all' %}?query={{ query }}&category_id={{ category.id }}">{{category.name}}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <hr class='my-5'>
+
+            <p class='mb-5'>Clear filters</p>
+
+            <ul>
+                <li class='list-unstyled'><a href="{% url 'recipes:all' %}" class='py-4 px-5 rounded bg-warning text-dark text-decoration-none'>Clear</a></li>
+            </ul>
+        </div>
+
+        <div class="col-9">
+            <div class="row">
+            {% for recipe in recipe_list %}
+            <div class="col-3 pb-5">
+                <div class="card h-100">
+                    <a href="{% url 'recipes:single'  pk=recipe.pk %}" id="pop">
+                        <img src="{% static recipe.image_display %}" class="card-img-top" alt='recipe image'>
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{recipe.title}}</h5>
+                        <p class="card-text">{{recipe.description}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-body-secondary">Price: {{recipe.price_display}}</small>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
+            </div>
         </div>
-        {% endfor %}
-      </div>
+
+    </div>
 
 {% endblock %}

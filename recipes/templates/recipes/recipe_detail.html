@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="list-group-item"><button type="button" class="btn btn-primary w-100">Add To Cart</button></li>
+                        <a href="{% url 'recipes:add_to_cart' pk=recipe.id %}"><li class="list-group-item"><button type="button" class="btn btn-primary w-100">Add To Cart</button></li></a>
                     </ul>
                   </div>
             </div>
@@ -76,6 +76,25 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <h5 class='text-center pb-5 pt-5'>Related Recipes</h5>
+    <div class="row row-cols-1 row-cols-md-3 g-4 pb-5">
+        {% for recipe in related_recipes %}
+        <div class="col">
+            <div class="card h-100">
+                <a href="{% url 'recipes:single'  pk=recipe.pk %}" id="pop">
+                    <img src="{% static recipe.image_display %}" class="card-img-top" alt='recipe image'>
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{recipe.title}}</h5>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">Price: {{recipe.price_display}}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 
 {% endif %}

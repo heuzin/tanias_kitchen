@@ -1,9 +1,35 @@
-{% extends "base.html" %} {% block content %}
-
-<h1>Welcome to Tania's Kitchen!</h1>
-<h2>The best Brazilian food in Connecticut</h2>
-{% if user.is_authenticated %}
-<h2>Checkout out all of our items in stock</h2>
-{% else %}
-<h2>Login or Sign-up for free to get started!</h2>
-{% endif %} {% endblock %}
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<h1 class='text-center pb-5'>Newest Items</h1>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for recipe in recipes %}
+    <div class="col">
+        <div class="card h-100">
+            <a href="{% url 'recipes:single'  pk=recipe.pk %}" id="pop">
+                <img src="{% static recipe.image_display %}" class="card-img-top" alt='recipe image'>
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">{{recipe.title}}</h5>
+                <p class="card-text">Price: {{recipe.price_display}}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<h1 class='text-center pb-5 pt-5'>Categories</h1>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for category in categories %}
+    <div class="col">
+        <div class="card h-100">
+            <a class='text-decoration-none text-dark' href="{% url 'recipes:all' %}?query={{ query }}&category_id={{ category.id }}" id="pop">
+            <div class="card-body">
+                <h5 class="card-title">{{category.name}}</h5>
+                <p class="card-text">{{category.items.count}} items</p>
+            </div>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
