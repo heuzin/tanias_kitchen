@@ -56,12 +56,13 @@ class AddToCart(LoginRequiredMixin, RedirectView):
 
     def get(self, request, *args, **kwargs):
         recipe = get_object_or_404(Recipe, pk=self.kwargs.get('pk'))
+        count = request.POST['select_count']
 
         try:
             self.cart_user = User.objects.select_related('cart').get(
                     username__iexact=self.request.user.username
                 )
-            self.cart_user.cart.cart_item.create(item=recipe)
+            self.cart_user.cart.cart_item.create(item=recipe, count=count)
         except Cart.DoesNotExist:
             cart = Cart.objects.create(user=self.request.user)
             cart.cart_item.create(item=recipe)

@@ -43,7 +43,19 @@ class Recipedetail(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         recipe = get_object_or_404(Recipe, pk=self.kwargs['pk'])
+
+        self.has_item = False
+        cart_user = User.objects.select_related('cart').get(
+                        username__iexact=self.request.user.username
+            )
+        cart_items = cart_user.cart.cart_item.all()
+        for cart in cart_items:
+            if cart.item.id == recipe.id:
+                self.has_item = True
+
         related_recipes = Recipe.objects.filter(
             category=recipe.category).exclude(pk=self.kwargs['pk'])[0:3]
+
         context["related_recipes"] = related_recipes
+        context["has_item"] = self.has_item
         return context

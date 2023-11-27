@@ -41,18 +41,32 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-6">
-                                    <span>Qty</span>
-                                </div>
-                                <div class="col-6">
-                                    <select class="form-select"><option value="1">1</option></select>
-                                </div>
-                            </div>
-                        </li>
-                        <a href="{% url 'cart:add_to_cart' pk=recipe.id %}"><li class="list-group-item"><button type="button" class="btn btn-primary w-100">Add To Cart</button></li></a>
-                    </ul>
+                        {% if has_item %}
+                            <form method="GET" action="{% url 'cart:for_user' username=request.user.username  %}" >
+                                {% csrf_token %}
+                                <li class="list-group-item">
+                                    <button type="submit" class="btn btn-primary w-100">Go To Cart</button>
+                                </li>
+                            </form>
+                        {% else %}
+                            <form method="POST" action="{% url 'cart:add_to_cart' pk=recipe.id %}" >
+                                {% csrf_token %}
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>Qty</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <input value=1 class="form-control" type='number' name='select_count'/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <button type="submit" class="btn btn-primary w-100">Add To Cart</button>
+                                </li>
+                            </form>
+                        {% endif %}
+                        </ul>
                   </div>
             </div>
         </div>
