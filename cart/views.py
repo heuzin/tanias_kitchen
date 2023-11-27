@@ -1,8 +1,11 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+from django.urls import reverse
+from django.shortcuts import get_object_or_404
 
 from recipes.models import Recipe
-from .models import Cart
+from .models import Cart, CartItem
 
 from django.http import Http404
 
@@ -44,3 +47,44 @@ class UserCartList(LoginRequiredMixin, ListView):
         context["total_count"] = count
         context["total_price"] = price
         return context
+
+
+class AddToCart(LoginRequiredMixin, RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('cart:for_user', kwargs={
+            'username': self.request.user.username})
+
+    def get(self, request, *args, **kwargs):
+        recipe = get_object_or_404(Recipe, pk=self.kwargs.get('pk'))
+
+        try:
+            self.cart_user = User.objects.select_related('cart').get(
+                    username__iexact=self.request.user.username
+                )
+            self.cart_user.cart.cart_item.create(item=recipe)
+        except Cart.DoesNotExist:
+            cart = Cart.objects.create(user=self.request.user)
+            cart.cart_item.create(item=recipe)
+            messages.success(self.request,
+                             "{} successful added to Cart."
+                             .format(Recipe.title))
+        else:
+            messages.success(self.request,
+                             "{} successful added to Cart."
+                             .format(Recipe.title))
+
+        return super().get(request, *args, **kwargs)
+
+
+class RemoveFromCart(LoginRequiredMixin, RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('cart:for_user', kwargs={
+            'username': self.request.user.username})
+
+    def get(self, request, *args, **kwargs):
+        self.cart_user = User.objects.select_related('cart').get(
+                username__iexact=self.request.user.username
+            )
+        self.cart_user.cart.cart_item.get(pk=self.kwargs.get('pk')).delete()
+
+        return super().get(request, *args, **kwargs)

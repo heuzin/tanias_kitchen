@@ -26,7 +26,7 @@
                             <select class="form-select"><option value="{{recipe.count}}">{{recipe.count}}</option></select>
                         </div>
                         <div class="col-2">
-                            <span>{% bs_icon 'trash' color='red' size='1.2em' %}</span>
+                            <a href="{% url 'cart:remove_from_cart' pk=recipe.id %}"><span>{% bs_icon 'trash' color='red' size='1.2em' %}</span></a>
                         </div>
                     </div>
                     <hr/>

@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.views.generic import ListView, DetailView, RedirectView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib import messages
-from django.urls import reverse
-from django.shortcuts import get_object_or_404
 
 from .models import Recipe
 from category.models import Category
-from cart.models import Cart
 
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -50,30 +47,3 @@ class Recipedetail(LoginRequiredMixin, DetailView):
             category=recipe.category).exclude(pk=self.kwargs['pk'])[0:3]
         context["related_recipes"] = related_recipes
         return context
-
-
-class AddToCart(LoginRequiredMixin, RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        return reverse('cart:for_user', kwargs={
-            'username': self.request.user.username})
-
-    def get(self, request, *args, **kwargs):
-        recipe = get_object_or_404(Recipe, pk=self.kwargs.get('pk'))
-
-        try:
-            self.cart_user = User.objects.select_related('cart').get(
-                    username__iexact=self.request.user.username
-                )
-            self.cart_user.cart.cart_item.create(item=recipe)
-        except Cart.DoesNotExist:
-            cart = Cart.objects.create(user=self.request.user)
-            cart.cart_item.create(item=recipe)
-            messages.success(self.request,
-                             "{} successful added to Cart."
-                             .format(Recipe.title))
-        else:
-            messages.success(self.request,
-                             "{} successful added to Cart."
-                             .format(Recipe.title))
-
-        return super().get(request, *args, **kwargs)
