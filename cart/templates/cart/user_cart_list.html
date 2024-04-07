@@ -23,9 +23,9 @@
                             <p>${{recipe.total_price}}</p>
                         </div>
                         <div class="col-2">
-                            <select class="form-select"><option value="{{recipe.count}}">{{recipe.count}}</option></select>
+                            <input value="{{recipe.count}}" disabled class="form-control" type='number' name='select_count'/>
                         </div>
-                        <div class="col-2">
+                        <div class="col-1">
                             <a href="{% url 'cart:remove_from_cart' pk=recipe.id %}"><span>{% bs_icon 'trash' color='red' size='1.2em' %}</span></a>
                         </div>
                     </div>
@@ -45,7 +45,9 @@
                 </li>
                 <li class="list-group-item">
                     <div class="row">
-                        <button type="button" class="btn btn-primary w-100">Proceed To Checkout</button>
+                        <a href="{% if request.user.shipping  %}{% url 'orders:update_shipping' pk=request.user.shipping.id %}{% else %}{% url 'orders:create_shipping' %}{% endif %}" id="pop">
+                            <button type="button" class="btn btn-primary w-100">Proceed To Checkout</button>
+                        </a>
                     </div>
                 </li>
             </ul>

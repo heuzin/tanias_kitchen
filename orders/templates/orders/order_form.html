@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% load static %}
+{% block content %}
+{% if request.user.is_authenticated %}
+    <div class="row">
+        <div class="col-8">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="row">
+                        <h5>SHIPPING</h5>
+                        <p><strong>Address: </strong>{{request.user.shipping.address}}, {{request.user.shipping.city}} {{request.user.shipping.postal_code}}, {{request.user.shipping.country}}</p>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <h5>ORDER ITEMS</h5>
+                {% for recipe in cart_items %}
+                    <div class="row pb-2">
+                        <div class="col-1">
+                            <a href="{% url 'recipes:single'  pk=recipe.item.id %}" id="pop">
+                                <img src="{% static recipe.image_display %}" class="card-img-top" alt='recipe image'>
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <p>{{recipe.item.title}}</p>
+                        </div>
+                        <div class="col-2">
+                            <p>${{recipe.total_price}}</p>
+                        </div>
+                        <div class="col-2">
+                            <input value="{{recipe.count}}" disabled class="form-control" type='number' name='select_count'/>
+                        </div>
+                    </div>
+                    {% endfor %} 
+                </li>
+            </ul>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <h5>Order Summary</h5>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-6">
+                                <span>Items</span>
+                            </div>
+                            <div class="col-6">
+                                <span>${{total_price}}</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-6">
+                                <span>Entrega</span>
+                            </div>
+                            <div class="col-6">
+                                <span>$5.00</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-6">
+                                <span>Tax</span>
+                            </div>
+                            <div class="col-6">
+                                <span>$0</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-6">
+                                <span>Total</span>
+                            </div>
+                            <div class="col-6">
+                                <span>${{total_price}}</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <button type="submit" value="Post" class="btn btn-primary w-100">Place Order</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endif %}
+{% endblock %}

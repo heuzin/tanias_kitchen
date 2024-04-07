@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404
 
 from recipes.models import Recipe
-from .models import Cart, CartItem
+from .models import Cart
 
 from django.http import Http404
 

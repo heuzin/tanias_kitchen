@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% load static %}
+{% block content %}
+{% if request.user.is_authenticated %}
+    <div class="row">
+        <div class="col-8">
+                <form method="PUT">
+                    {% csrf_token %} {% bootstrap_form form %}
+                    <button type="submit" value="Update" class="btn btn-primary">Continue</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
